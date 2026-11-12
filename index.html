@@ -1,0 +1,1142 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>每日全球金融报</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f2efe8;
+        --card: #ffffff;
+        --ink: #1c1a16;
+        --ink-2: #55524a;
+        --ink-3: #8a857a;
+        --rule: #e2ddd0;
+        --rule-strong: #c9c2b0;
+        --thead: #f6f3ec;
+        --up: #b3261e;
+        --up-soft: #faf0ef;
+        --down: #1c7a43;
+        --down-soft: #eef6f1;
+        --accent: #b3261e;
+        --pill-bg: #f4f1ea;
+        --nav-bg: rgba(242, 239, 232, 0.94);
+        --serif: "Noto Serif SC", "Songti SC", "STSong", SimSun, serif;
+        --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #16140f;
+          --card: #211e19;
+          --ink: #ede9df;
+          --ink-2: #b3ac9c;
+          --ink-3: #857f70;
+          --rule: #38342c;
+          --rule-strong: #4d483d;
+          --thead: #29261f;
+          --up: #e8706a;
+          --up-soft: #2e201d;
+          --down: #58c07e;
+          --down-soft: #1e2b22;
+          --accent: #e8706a;
+          --pill-bg: #2b2822;
+          --nav-bg: rgba(22, 20, 15, 0.94);
+        }
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 16px;
+        line-height: 1.75;
+        -webkit-font-smoothing: antialiased;
+      }
+      .num { font-variant-numeric: tabular-nums; }
+      .up { color: var(--up); }
+      .down { color: var(--down); }
+
+      /* ---------- quick jump nav ---------- */
+      .jumpnav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: var(--nav-bg);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--rule-strong);
+      }
+      .jumpnav .inner {
+        max-width: 780px;
+        margin: 0 auto;
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .jumpnav .inner::-webkit-scrollbar { display: none; }
+      .jumpnav .brand {
+        font-family: var(--serif);
+        font-weight: 900;
+        font-size: 15px;
+        white-space: nowrap;
+        padding-right: 10px;
+        margin-right: 2px;
+        border-right: 1px solid var(--rule-strong);
+        color: var(--ink);
+      }
+      .jumpnav a {
+        color: var(--ink-2);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        white-space: nowrap;
+        padding: 10px 10px;
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+      }
+      .jumpnav a:hover { color: var(--accent); }
+
+      .wrap { max-width: 780px; margin: 0 auto; padding: 0 16px 56px; }
+      section { scroll-margin-top: 64px; }
+
+      /* ---------- masthead ---------- */
+      .masthead {
+        text-align: center;
+        padding: 38px 8px 22px;
+        border-bottom: 3px double var(--rule-strong);
+      }
+      .masthead .en {
+        font-size: 12px;
+        letter-spacing: 0.42em;
+        color: var(--ink-3);
+        text-transform: uppercase;
+        margin: 0 0 8px;
+      }
+      .masthead h1 {
+        font-family: var(--serif);
+        font-weight: 900;
+        font-size: clamp(38px, 8.5vw, 54px);
+        line-height: 1.15;
+        margin: 0;
+        letter-spacing: 0.06em;
+      }
+      .masthead .sub {
+        margin: 12px 0 0;
+        font-size: 15px;
+        color: var(--ink-2);
+        letter-spacing: 0.28em;
+      }
+      .dateline {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px 18px;
+        margin-top: 16px;
+        font-size: 13.5px;
+        color: var(--ink-2);
+      }
+      .dateline .issue { color: var(--accent); font-weight: 700; }
+      .cutoff {
+        margin-top: 10px;
+        font-size: 13px;
+        color: var(--ink-3);
+      }
+
+      /* ---------- lead ---------- */
+      .lead {
+        margin: 26px 0 8px;
+        padding: 22px 24px;
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 6px;
+      }
+      .lead .kicker {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        color: var(--accent);
+        margin: 0 0 8px;
+      }
+      .lead p {
+        margin: 0;
+        font-family: var(--serif);
+        font-size: 19px;
+        font-weight: 600;
+        line-height: 1.7;
+      }
+
+      /* ---------- section heads ---------- */
+      h2.sec {
+        font-family: var(--serif);
+        font-size: 24px;
+        font-weight: 900;
+        margin: 40px 0 4px;
+        padding-left: 12px;
+        border-left: 5px solid var(--accent);
+        line-height: 1.4;
+      }
+      .sec-note { margin: 4px 0 14px; font-size: 13.5px; color: var(--ink-3); }
+
+      /* ---------- key points ---------- */
+      .points { display: grid; gap: 12px; }
+      .point {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 6px;
+        padding: 18px 20px 18px 76px;
+        position: relative;
+      }
+      .point .no {
+        position: absolute;
+        left: 20px;
+        top: 12px;
+        font-family: var(--serif);
+        font-size: 42px;
+        font-weight: 900;
+        color: var(--accent);
+        line-height: 1;
+      }
+      .point h3 {
+        margin: 0 0 4px;
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 1.5;
+      }
+      .point p { margin: 0; font-size: 15px; color: var(--ink-2); line-height: 1.8; }
+
+      /* ---------- tables ---------- */
+      .card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 6px;
+        padding: 20px 22px;
+        margin-bottom: 14px;
+      }
+      .card h3.sub {
+        font-family: var(--serif);
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0 0 12px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid var(--ink);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 15px;
+      }
+      thead th {
+        background: var(--thead);
+        text-align: left;
+        font-weight: 700;
+        font-size: 13.5px;
+        color: var(--ink-2);
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--rule-strong);
+        white-space: nowrap;
+      }
+      tbody td {
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--rule);
+        vertical-align: top;
+      }
+      tbody tr:last-child td { border-bottom: none; }
+      td.r, th.r { text-align: right; }
+      td.name { font-weight: 500; white-space: nowrap; }
+      td.close { text-align: right; font-weight: 500; }
+      td.chg { text-align: right; font-weight: 700; white-space: nowrap; }
+      tr.group td {
+        background: var(--thead);
+        font-size: 12.5px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        color: var(--ink-3);
+        padding: 6px 10px;
+      }
+      .tbl-note { margin: 12px 0 0; font-size: 14px; color: var(--ink-2); line-height: 1.8; }
+      .summary { margin: 14px 2px 0; font-size: 15.5px; line-height: 1.9; }
+
+      /* ---------- major events ---------- */
+      .major {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 6px;
+        padding: 16px 20px;
+        margin-bottom: 12px;
+      }
+      .major .m-top {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+      .major .stars {
+        color: var(--accent);
+        font-size: 14px;
+        letter-spacing: 0.08em;
+        white-space: nowrap;
+      }
+      .major h3 {
+        font-family: var(--serif);
+        font-size: 18.5px;
+        font-weight: 700;
+        margin: 0;
+        line-height: 1.45;
+      }
+      .major p { margin: 0 0 4px; font-size: 15px; line-height: 1.85; color: var(--ink-2); }
+      .major p:last-child { margin-bottom: 0; }
+      .major p b { color: var(--ink); font-weight: 700; }
+      .major .next b { color: var(--accent); }
+      .major .next strong { color: var(--ink); font-weight: 700; }
+      .major .impact {
+        margin-top: 10px;
+        background: var(--thead);
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        padding: 10px 14px 6px;
+      }
+      .major .impact .i-title {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        color: var(--accent);
+        margin: 0 0 2px;
+      }
+      .major .impact ul { list-style: none; margin: 0; padding: 0; }
+      .major .impact li {
+        font-size: 14.5px;
+        line-height: 1.75;
+        color: var(--ink-2);
+        padding: 3px 0;
+        border-bottom: 1px dashed var(--rule);
+      }
+      .major .impact li:last-child { border-bottom: none; }
+      .major .impact li b { color: var(--ink); font-weight: 700; }
+
+      /* ---------- trend chart ---------- */
+      .chart-wrap { margin: 2px 0 4px; }
+      .chart-wrap svg { display: block; width: 100%; height: auto; }
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 10px 0 2px;
+      }
+      .chip {
+        font-family: var(--sans);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--pill-bg);
+        border: 1px solid var(--rule);
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ink);
+        padding: 3px 11px;
+        cursor: pointer;
+        min-height: 30px;
+      }
+      .chip .dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
+      .chip.off { opacity: 0.38; }
+      .chart-note { margin: 10px 0 0; font-size: 13px; color: var(--ink-3); line-height: 1.8; }
+      .src-note { margin: 10px 0 0; font-size: 12.5px; color: var(--ink-3); line-height: 1.8; }
+      .trend-track {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 16px;
+        font-size: 13px;
+        color: var(--ink-3);
+      }
+      .trend-track .bar {
+        flex: 1;
+        height: 6px;
+        background: var(--rule);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .trend-track .fill { width: 3.33%; height: 100%; background: var(--accent); }
+
+      /* ---------- events ---------- */
+      .event {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 6px;
+        padding: 20px 22px;
+        margin-bottom: 14px;
+      }
+      .event .tag {
+        display: inline-block;
+        font-size: 12.5px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+        border: 1px solid var(--accent);
+        border-radius: 3px;
+        padding: 1px 8px;
+        margin-bottom: 8px;
+      }
+      .event h3 {
+        font-family: var(--serif);
+        font-size: 20px;
+        font-weight: 700;
+        margin: 0 0 12px;
+        line-height: 1.45;
+      }
+      .pills { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+      .pill {
+        background: var(--pill-bg);
+        border: 1px solid var(--rule);
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 3px 11px;
+        white-space: nowrap;
+      }
+      .event p { margin: 0; font-size: 15.5px; line-height: 1.9; }
+
+      /* ---------- outlook ---------- */
+      .outlook { display: grid; gap: 10px; }
+      .oi {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 6px;
+        padding: 14px 18px;
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+      }
+      .oi .time {
+        flex: 0 0 auto;
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--accent);
+        background: var(--up-soft);
+        border-radius: 4px;
+        padding: 2px 10px;
+        margin-top: 2px;
+        white-space: nowrap;
+        min-width: 86px;
+        text-align: center;
+      }
+      .oi .body { font-size: 15.5px; line-height: 1.8; }
+      .oi .body b { font-weight: 700; }
+      .oi .body span { color: var(--ink-2); }
+
+      /* ---------- archive / sources ---------- */
+      .archive p { margin: 0; font-size: 15.5px; line-height: 1.9; color: var(--ink-2); }
+
+      /* ---------- archive tiers ---------- */
+      .month-group {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 6px;
+        margin-bottom: 14px;
+        overflow: hidden;
+      }
+      .month-group > summary {
+        list-style: none;
+        cursor: pointer;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        padding: 14px 20px;
+        min-height: 52px;
+        font-family: var(--serif);
+        font-size: 18px;
+        font-weight: 700;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .month-group > summary::-webkit-details-marker { display: none; }
+      .month-group > summary::after {
+        content: "收起";
+        margin-left: auto;
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ink-3);
+        white-space: nowrap;
+      }
+      .month-group:not([open]) > summary::after { content: "展开"; }
+      .month-group > summary .m-count {
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ink-3);
+      }
+      .month-body { border-top: 1px solid var(--rule); }
+      .month-empty { margin: 0; padding: 16px 20px; font-size: 15px; line-height: 1.9; color: var(--ink-2); }
+      /* 最近 7 期：全文条目 */
+      .arch-entry { padding: 18px 20px 6px; border-bottom: 1px solid var(--rule); }
+      .arch-entry:last-child { border-bottom: none; }
+      .arch-entry .a-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 6px 12px;
+        margin-bottom: 10px;
+      }
+      .arch-entry .a-date { font-weight: 700; font-size: 15px; }
+      .arch-entry .a-issue { font-size: 13px; color: var(--accent); font-weight: 700; }
+      .arch-entry .a-title {
+        font-family: var(--serif);
+        font-size: 17.5px;
+        font-weight: 700;
+        line-height: 1.55;
+        margin: 0 0 6px;
+      }
+      .arch-entry p { margin: 0 0 10px; font-size: 15px; line-height: 1.9; color: var(--ink-2); }
+      /* 超过 7 天：摘要卡，点开看全文 */
+      .arch-card { border-bottom: 1px solid var(--rule); }
+      .arch-card:last-child { border-bottom: none; }
+      .arch-card > summary {
+        list-style: none;
+        cursor: pointer;
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        padding: 14px 20px;
+        min-height: 52px;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .arch-card > summary::-webkit-details-marker { display: none; }
+      .arch-card > summary::after {
+        content: "展开全文";
+        margin-left: auto;
+        flex: 0 0 auto;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--accent);
+        white-space: nowrap;
+      }
+      .arch-card[open] > summary::after { content: "收起"; color: var(--ink-3); }
+      .arch-card .a-date { font-weight: 700; font-size: 15px; white-space: nowrap; }
+      .arch-card .a-head { min-width: 0; }
+      .arch-card .a-title {
+        display: block;
+        font-family: var(--serif);
+        font-size: 16.5px;
+        font-weight: 700;
+        line-height: 1.5;
+      }
+      .arch-card .a-sum {
+        display: block;
+        font-size: 14px;
+        line-height: 1.7;
+        color: var(--ink-2);
+        margin-top: 2px;
+      }
+      .arch-card .a-body {
+        padding: 4px 20px 10px;
+        border-top: 1px dashed var(--rule);
+      }
+      .arch-card .a-body p { margin: 0 0 10px; font-size: 15px; line-height: 1.9; color: var(--ink-2); }
+      .sources { list-style: none; margin: 0; padding: 0; }
+      .sources li { padding: 9px 0; border-bottom: 1px solid var(--rule); font-size: 14.5px; line-height: 1.7; }
+      .sources li:last-child { border-bottom: none; }
+      .sources .src { font-weight: 700; color: var(--ink); }
+      .sources a { color: var(--ink-2); text-decoration: none; overflow-wrap: anywhere; }
+      .sources a:hover { color: var(--accent); text-decoration: underline; }
+
+      footer {
+        margin-top: 44px;
+        padding-top: 18px;
+        border-top: 3px double var(--rule-strong);
+        text-align: center;
+        font-size: 13px;
+        color: var(--ink-3);
+        line-height: 1.9;
+      }
+
+      @media (max-width: 560px) {
+        .point { padding: 16px 16px 16px 64px; }
+        .point .no { left: 16px; font-size: 36px; }
+        .card, .event { padding: 16px; }
+        .month-group > summary, .arch-card > summary { padding-left: 16px; padding-right: 16px; }
+        .month-empty, .arch-entry, .arch-card .a-body { padding-left: 16px; padding-right: 16px; }
+        .arch-card > summary { gap: 10px; }
+        .lead { padding: 18px; }
+        .lead p { font-size: 17.5px; }
+        table { font-size: 14px; }
+        thead th, tbody td { padding: 7px 6px; }
+        .oi { flex-direction: column; gap: 6px; }
+        .oi .time { min-width: 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="jumpnav" aria-label="本期栏目">
+      <div class="inner">
+        <span class="brand">每日全球金融报</span>
+        <a href="#points">本期要点</a>
+        <a href="#markets">市场概览</a>
+        <a href="#major">重大事件</a>
+        <a href="#trend">逐日趋势</a>
+        <a href="#events">事件详情</a>
+        <a href="#outlook">今日前瞻</a>
+        <a href="#archive">往期回看</a>
+        <a href="#sources">来源</a>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <header class="masthead">
+        <p class="en">Daily Global Finance</p>
+        <h1>每日全球金融报</h1>
+        <p class="sub">全球市场 · 宏观 · 央行 · 公司</p>
+        <div class="dateline">
+          <span>2026 年 11 月 12 日 · 星期四</span>
+          <span class="issue">创刊期</span>
+          <span>每天早上更新 · 北京时间 · 中文版</span>
+        </div>
+        <p class="cutoff">数据截止：2026 年 11 月 12 日 09:30（北京时间）；市场价格为 11 月 11 日（周三）收盘</p>
+      </header>
+
+      <div class="lead">
+        <p class="kicker">头版导读</p>
+        <p>AI 交易强势回归，美股大涨收复上周大半失地；黄金跌破 4000 美元；12 月加息几成定局，市场博弈 25 还是 50 个基点。</p>
+      </div>
+
+      <section id="points">
+        <h2 class="sec">本期要点</h2>
+        <p class="sec-note">先看这几条</p>
+        <div class="points">
+          <article class="point">
+            <span class="no">1</span>
+            <h3>美股周三大涨，AI 交易回归</h3>
+            <p>纳指 <span class="num up">+1.60%</span> 至 <span class="num">25,466.19</span> 点，标普 500 <span class="num up">+1.31%</span> 至 <span class="num">7,619.38</span> 点，道指 <span class="num up">+0.49%</span> 至 <span class="num">52,486.49</span> 点。CoreWeave 上调 2026 年营收指引至 130–133 亿美元，股价暴涨 <span class="num up">24.71%</span>；美光 <span class="num up">+11.89%</span>。VIX 跌超 10% 至 <span class="num">17.49</span>。</p>
+          </article>
+          <article class="point">
+            <span class="no">2</span>
+            <h3>黄金跌破 4000 美元</h3>
+            <p>现货金约 <span class="num">3,983.20</span> 美元/盎司，跌 <span class="num down">1.21%</span>，盘中反弹后回落；美元指数升至 <span class="num">102.92</span>（<span class="num up">+0.67%</span>），逼近 2025 年 4 月以来高位。12 月加息 25bp 概率约九成，50bp 约一成。</p>
+          </article>
+          <article class="point">
+            <span class="no">3</span>
+            <h3>欧洲股市双创纪录</h3>
+            <p>STOXX 600 <span class="num up">+0.72%</span> 至 <span class="num">663.05</span> 点、DAX <span class="num up">+1.20%</span> 至 <span class="num">26,662.77</span> 点，双双创收盘新高；西门子能源上调 2027 年利润率目标，大涨 <span class="num up">10.78%</span>；德国 10 月 CPI 放缓至 <span class="num">2.8%</span>。</p>
+          </article>
+          <article class="point">
+            <span class="no">4</span>
+            <h3>亚太分化，恒指独跌</h3>
+            <p>日经 <span class="num up">+1.31%</span> 至 <span class="num">61,248.59</span> 点三连涨，KOSPI <span class="num up">+2.60%</span>，台股 <span class="num up">+3.62%</span> 三连涨；A 股沪指 <span class="num up">+0.46%</span> 三连涨，创业板 <span class="num up">+3.11%</span>；恒指独跌 <span class="num down">−0.98%</span>，恒生科技 <span class="num down">−1.41%</span>，权重科技股拖累。</p>
+          </article>
+          <article class="point">
+            <span class="no">5</span>
+            <h3>油价反弹，库存大增</h3>
+            <p>WTI 结算 <span class="num">86.53</span> 美元（<span class="num up">+0.57%</span>），布伦特结算 <span class="num">92.76</span> 美元（<span class="num up">+1.39%</span>）；API 显示上周美国原油库存大增 900 万桶，EIA 官方数据因退伍军人节推迟至周五凌晨 01:00 公布；EIA 预计布伦特年内维持近 100 美元。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="markets">
+        <h2 class="sec">市场概览</h2>
+        <p class="sec-note">11 月 11 日（周三）收盘 · 红涨绿跌</p>
+
+        <div class="card">
+          <h3 class="sub">主要股指</h3>
+          <table>
+            <thead>
+              <tr><th>指数</th><th class="r">收盘</th><th class="r">涨跌</th></tr>
+            </thead>
+            <tbody>
+              <tr class="group"><td colspan="3">美国</td></tr>
+              <tr><td class="name">道琼斯</td><td class="close num">52,486.49</td><td class="chg num up">+0.49%</td></tr>
+              <tr><td class="name">标普 500</td><td class="close num">7,619.38</td><td class="chg num up">+1.31%</td></tr>
+              <tr><td class="name">纳斯达克</td><td class="close num">25,466.19</td><td class="chg num up">+1.60%</td></tr>
+              <tr><td class="name">纳斯达克 100</td><td class="close num">28,374.25</td><td class="chg num up">+2.28%</td></tr>
+              <tr><td class="name">罗素 2000</td><td class="close num">2,846.26</td><td class="chg num up">+0.88%</td></tr>
+              <tr class="group"><td colspan="3">中国</td></tr>
+              <tr><td class="name">上证指数</td><td class="close num">3,680.64</td><td class="chg num up">+0.46%</td></tr>
+              <tr><td class="name">深证成指</td><td class="close num">11,389.74</td><td class="chg num up">+1.32%</td></tr>
+              <tr><td class="name">创业板指</td><td class="close num">2,572.07</td><td class="chg num up">+3.11%</td></tr>
+              <tr><td class="name">恒生指数</td><td class="close num">24,315.92</td><td class="chg num down">−0.98%</td></tr>
+              <tr><td class="name">恒生科技</td><td class="close num">4,027.06</td><td class="chg num down">−1.41%</td></tr>
+              <tr class="group"><td colspan="3">欧洲</td></tr>
+              <tr><td class="name">STOXX 600</td><td class="close num">663.05</td><td class="chg num up">+0.72%</td></tr>
+              <tr><td class="name">DAX</td><td class="close num">26,662.77</td><td class="chg num up">+1.20%</td></tr>
+              <tr><td class="name">CAC 40</td><td class="close num">8,332.87</td><td class="chg num up">+0.66%</td></tr>
+              <tr><td class="name">FTSE 100</td><td class="close num">10,835.47</td><td class="chg num up">+0.78%</td></tr>
+              <tr class="group"><td colspan="3">亚太其他</td></tr>
+              <tr><td class="name">日经 225</td><td class="close num">61,248.59</td><td class="chg num up">+1.31%</td></tr>
+              <tr><td class="name">KOSPI</td><td class="close num">5,375.36</td><td class="chg num up">+2.60%</td></tr>
+              <tr><td class="name">台湾加权</td><td class="close num">44,257.15</td><td class="chg num up">+3.62%</td></tr>
+              <tr><td class="name">Nifty 50</td><td class="close num">25,255.05</td><td class="chg num up">+0.84%</td></tr>
+            </tbody>
+          </table>
+          <p class="tbl-note">VIX 约 <span class="num">17.49</span>（<span class="num down">−10.13%</span>，四连降至一周低点）；港股主板成交约 1,807.5 亿港元；A 股光通信股大涨（长飞光纤光缆涨超 13%、中际旭创涨近 14%、剑桥科技涨 23%），腾讯跌近 2%、美团跌超 3%；标普 500 距历史高点约 2.6%。</p>
+        </div>
+
+        <div class="card">
+          <h3 class="sub">汇率 · 利率 · 商品</h3>
+          <table>
+            <thead>
+              <tr><th>指标</th><th class="r">最新</th><th>涨跌 / 说明</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="name">美元指数 DXY</td><td class="close num">102.92</td><td><span class="num up">+0.67%</span>，两连涨</td></tr>
+              <tr><td class="name">美债 10 年期</td><td class="close num">约 4.98%</td><td>周二收盘；周三债市因退伍军人节休市（周二盘中一度破 5.00%）</td></tr>
+              <tr><td class="name">美债 2 年期</td><td class="close num">约 4.74%</td><td>周二收盘（单日 +17.6bp，2025 年 4 月以来最大涨幅）</td></tr>
+              <tr><td class="name">美元/人民币（在岸）</td><td class="close num">约 6.6857</td><td>60s API，11 月 12 日 08:02 更新</td></tr>
+              <tr><td class="name">欧元/人民币</td><td class="close num">约 7.4261</td><td>60s API，11 月 12 日 08:02 更新</td></tr>
+              <tr><td class="name">现货黄金</td><td class="close num">约 3,983.20 美元/盎司</td><td><span class="num down">−1.21%</span>，跌破 4000 美元</td></tr>
+              <tr><td class="name">国内金价</td><td class="close num">857.67 元/克</td><td>60s API，11 月 12 日 09:28 更新</td></tr>
+              <tr><td class="name">WTI 原油</td><td class="close num">86.53 美元</td><td><span class="num up">+0.57%</span>（结算价）</td></tr>
+              <tr><td class="name">布伦特原油</td><td class="close num">92.76 美元</td><td><span class="num up">+1.39%</span>（结算价）</td></tr>
+              <tr><td class="name">现货白银</td><td class="close num">约 51.56 美元/盎司</td><td><span class="num up">+0.29%</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="summary">美股在 CoreWeave 财报带动下强劲反弹，芯片与云基建领涨，恐慌指数大幅回落；欧洲双创纪录高点；亚太除港股外普遍上涨。债市休市之际，加息预期继续推高美元、压制金价；油价在霍尔木兹海峡航运风险与库存大增的拉锯中反弹。</p>
+      </section>
+
+      <section id="major">
+        <h2 class="sec">重大事件</h2>
+        <p class="sec-note">正在对全球市场产生重大影响的事件 · 按影响力排序 · ★★★ 为最高 · 每条附分方面影响分析</p>
+
+        <article class="major">
+          <div class="m-top"><span class="stars" aria-label="影响评级三星">★★★</span><h3>美国通胀与 12 月加息博弈</h3></div>
+          <p><b>影响资产：</b>全球利率、美元、黄金、成长股</p>
+          <p><b>最新进展：</b>10 月 CPI 环比 <span class="num">+0.4%</span>（预期 +0.3%）、核心 <span class="num">+0.3%</span>（预期 +0.2%），为连续第三个月核心环比 +0.3%；10 月非农新增 16.5 万，大超预期的约 5.9 万，失业率 4.1%。市场计入 12 月会议约 29bp 紧缩，25bp 加息概率约九成、50bp 约一成。</p>
+          <p class="next"><b>关键时点：</b><strong>11 月 13 日 21:30</strong> 美国 10 月 PPI；<strong>12 月 8–9 日</strong> FOMC；会前还有 10 月 PCE 与 11 月非农。</p>
+          <div class="impact">
+            <p class="i-title">影响分析</p>
+            <ul>
+              <li><b>债市（利空）：</b>收益率上行，10 年期逼近 <span class="num">5%</span>，长债价格承压；30 年期国债拍卖需求受考验。</li>
+              <li><b>股市（分化）：</b>高估值成长股承压，银行股相对受益于利率上行。</li>
+              <li><b>汇率（美元走强）：</b>美元指数走强，新兴市场货币与人民币承压。</li>
+              <li><b>商品（利空黄金）：</b>持有无息黄金的机会成本上升，金价承压；油价受需求预期拖累。</li>
+              <li><b>实体经济：</b>房贷与企业融资成本上升，消费与投资受抑。</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="major">
+          <div class="m-top"><span class="stars" aria-label="影响评级三星">★★★</span><h3>英伟达董事会调查 CEO 黄仁勋</h3></div>
+          <p><b>影响资产：</b>芯片股、AI 产业链、美股龙头（英伟达为全球市值最高公司，约 4.5 万亿美元）</p>
+          <p><b>最新进展：</b>11 月 8 日董事会宣布启动独立调查，调查黄仁勋是否成为外国情报工作的目标；黄仁勋同日向全体员工承认曾对妻子不忠并承诺全力配合。调查源于《纽约时报》10 月底与《金融时报》11 月 6 日的报道：黄仁勋与新加坡云计算公司 Megaspeed 前高管 Alice Huang（与黄仁勋无亲属关系）有交往，美方官员怀疑其被中国情报部门招募。《The Information》报道约 75 亿美元英伟达芯片经由与 Alice Huang 相关的网络流入中国企业。董事会称目前没有理由相信国家安全或公司机密受到损害，黄仁勋留任 CEO。股价周一跌 4.3%（市值蒸发近 2,000 亿美元）、周二再跌约 6%；特朗普称 FBI 正在「关注」此事；目前无人被起诉，中国外交部称间谍说法缺乏依据。</p>
+          <p class="next"><b>关键时点：</b><strong>11 月 17 日</strong>英伟达三季报；<strong>11 月 18 日</strong>众议院三位委员会主席要求的闭门简报。</p>
+          <div class="impact">
+            <p class="i-title">影响分析</p>
+            <ul>
+              <li><b>芯片股（利空）：</b>龙头 headline risk，费城半导体指数波动加大。</li>
+              <li><b>AI 产业链（情绪传导）：</b>云厂商与算力租赁商估值受牵连。</li>
+              <li><b>美股大盘（拖累）：</b>英伟达权重极高，波动直接传导纳指与标普 500。</li>
+              <li><b>中美科技（脱钩风险）：</b>芯片出口管制与供应链审查可能进一步收紧。</li>
+              <li><b>监管（不确定性）：</b>国会简报与 FBI 关注，事件仍有升级可能。</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="major">
+          <div class="m-top"><span class="stars" aria-label="影响评级三星">★★★</span><h3>Anthropic IPO 路演启动</h3></div>
+          <p><b>影响资产：</b>AI 板块估值、一级市场、相关芯片与云厂商</p>
+          <p><b>最新进展：</b>11 月 10 日启动路演，修订版招股书发行 8.25 亿股，定价区间 70–78 美元，估值约 1.4 万亿美元，基础发行募资最高约 640 亿美元；另向 AMD、博通、谷歌、美光、微软、英伟达、台积电出售 260 亿美元无投票权 N 类股（谷歌与英伟达各投 100 亿美元）。估值讨论已从上月的约 2 万亿美元降至 1–1.3 万亿美元；目标 11 月 16 日当周在纳斯达克上市，代码 ANT。风险点：FTC 要求高管作证、五角大楼供应链指定未决、黑石称其可能拿不到投资级评级。</p>
+          <p class="next"><b>关键时点：</b><strong>11 月 16 日</strong>当周定价上市。</p>
+          <div class="impact">
+            <p class="i-title">影响分析</p>
+            <ul>
+              <li><b>AI 板块估值（锚点）：</b><span class="num">1.4</span> 万亿美元定价是 AI 估值标杆，发行成败影响整个板块情绪。</li>
+              <li><b>一级市场（提振）：</b>史上最大 IPO 之一，有望打开科技股上市窗口。</li>
+              <li><b>相关公司（资本开支信号）：</b>谷歌、英伟达各 <span class="num">100</span> 亿美元战略投资，印证 AI 基建投入强度。</li>
+              <li><b>信用市场（风险点）：</b>黑石称其可能拿不到投资级评级，<span class="num">9000</span> 亿美元基建支出计划的融资能力受关注。</li>
+              <li><b>监管（悬顶风险）：</b>FTC 调查与五角大楼供应链指定未决。</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="major">
+          <div class="m-top"><span class="stars" aria-label="影响评级二星">★★☆</span><h3>霍尔木兹海峡与油价拉锯</h3></div>
+          <p><b>影响资产：</b>原油、通胀预期、航运与能源股</p>
+          <p><b>最新进展：</b>10 月海湾地区共发生 37 起针对船只的袭击，为冲突爆发以来单月最高，航运风险抵消了伊朗局势缓和预期；布伦特一周内从近 118 美元跌至 92 美元附近。特朗普称只要谈判继续、进一步打击伊朗「极不可能」，但霍尔木兹海峡的海上封锁仍在。EIA 预计布伦特年内维持近 100 美元。</p>
+          <p class="next"><b>关键时点：</b><strong>11 月 13 日凌晨 01:00</strong> EIA 原油库存报告。</p>
+          <div class="impact">
+            <p class="i-title">影响分析</p>
+            <ul>
+              <li><b>原油（剧烈波动）：</b>供给风险溢价主导，布伦特一周从近 <span class="num">118</span> 美元跌至 <span class="num">92</span> 美元附近。</li>
+              <li><b>通胀（传导）：</b>油价波动传导至 CPI，影响各国央行政策空间。</li>
+              <li><b>航运保险（成本上升）：</b>海湾航运风险推高运费与保费。</li>
+              <li><b>能源股（跟随油价）：</b>油气股盈利预期随油价大幅摆动。</li>
+              <li><b>亚洲进口国（成本压力）：</b>中日韩印等能源进口国进口成本上升。</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="major">
+          <div class="m-top"><span class="stars" aria-label="影响评级二星">★★☆</span><h3>全球央行同步偏鹰</h3></div>
+          <p><b>影响资产：</b>全球债市、汇率、银行股</p>
+          <p><b>最新进展：</b>英国央行将基准利率上调至 4.00%（自 3.75%，三年来首次加息），预计通胀到 2027 年年中接近 5%。市场计入欧洲央行 12 月加息概率约 92%、日本央行约 84%。美联储之外，主要央行同步收紧是今年四季度全球市场的共同背景。</p>
+          <p class="next"><b>关键时点：</b><strong>12 月</strong>各央行议息会议密集期。</p>
+          <div class="impact">
+            <p class="i-title">影响分析</p>
+            <ul>
+              <li><b>全球债市（同步承压）：</b>主要经济体收益率曲线同步上移。</li>
+              <li><b>汇率（利差重定价）：</b>英镑、日元、欧元随各国加息节奏分化波动。</li>
+              <li><b>银行股（双向）：</b>净息差改善，但信贷需求与资产质量受抑。</li>
+              <li><b>新兴市场（资本外流）：</b>美元走强叠加发达市场利率上行，资金回流压力加大。</li>
+              <li><b>房地产（承压）：</b>抵押贷款利率上升压制楼市需求。</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="major">
+          <div class="m-top"><span class="stars" aria-label="影响评级二星">★★☆</span><h3>币安遭大规模黑客攻击</h3></div>
+          <p><b>影响资产：</b>加密货币、交易所概念</p>
+          <p><b>最新进展：</b>据报道，黑客攻击导致约 63 亿美元用户资金被盗，币安 CFO 离职。比特币在约 7.38 万美元附近企稳，比特币 ETF 出现资金流出。</p>
+          <p class="next"><b>关键时点：</b>关注币安赔付方案与监管回应。</p>
+          <div class="impact">
+            <p class="i-title">影响分析</p>
+            <ul>
+              <li><b>加密货币（利空）：</b>比特币与交易所代币承压，比特币 ETF 出现资金流出。</li>
+              <li><b>交易所行业（信任危机）：</b>监管审查加剧，合规与赔付成本上升。</li>
+              <li><b>风险情绪（传染可能）：</b>极端情况下向美股风险资产传导，需关注赔付方案进展。</li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <section id="trend">
+        <h2 class="sec">逐日趋势</h2>
+        <p class="sec-note">3 个记录日：11 月 9 日 – 11 月 11 日 · 归一化折线图（11 月 9 日 = 100）</p>
+        <div class="card">
+          <div class="chart-wrap">
+            <svg viewBox="0 0 780 430" role="img" aria-label="10 项核心指标三日归一化折线图：日经涨幅居首，黄金跌幅最深">
+              <text x="44" y="14" font-size="11" style="fill:var(--ink-3)">指数（11 月 9 日 = 100）</text>
+              <g stroke-width="1" style="stroke:var(--rule)">
+                <line x1="44" y1="356.6" x2="636" y2="356.6" />
+                <line x1="44" y1="285.7" x2="636" y2="285.7" />
+                <line x1="44" y1="144.0" x2="636" y2="144.0" />
+                <line x1="44" y1="73.1" x2="636" y2="73.1" />
+              </g>
+              <line x1="44" y1="214.9" x2="636" y2="214.9" stroke-width="1.4" style="stroke:var(--rule-strong)" />
+              <g font-size="11" text-anchor="end" style="fill:var(--ink-3)">
+                <text x="36" y="360.6">96</text>
+                <text x="36" y="289.7">98</text>
+                <text x="36" y="218.9">100</text>
+                <text x="36" y="148.0">102</text>
+                <text x="36" y="77.1">104</text>
+              </g>
+              <line x1="44" y1="392" x2="636" y2="392" stroke-width="1" style="stroke:var(--rule-strong)" />
+              <g font-size="12" text-anchor="middle" style="fill:var(--ink-2)">
+                <text x="44" y="416">11 月 9 日</text>
+                <text x="340" y="416">11 月 10 日</text>
+                <text x="636" y="416">11 月 11 日</text>
+              </g>
+
+              <g data-s="nky" fill="none" stroke="#9467bd" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M 44.0,214.9 L 340.0,113.3 L 636.0,65.8" />
+                <circle cx="44" cy="214.9" r="3.5" fill="#9467bd" stroke-width="1.4" style="stroke:var(--card)"><title>日经 225 · 11 月 9 日 · 58,775.50</title></circle>
+                <circle cx="340" cy="113.3" r="3.5" fill="#9467bd" stroke-width="1.4" style="stroke:var(--card)"><title>日经 225 · 11 月 10 日 · 60,459.58</title></circle>
+                <circle cx="636" cy="65.8" r="3.5" fill="#9467bd" stroke-width="1.4" style="stroke:var(--card)"><title>日经 225 · 11 月 11 日 · 61,248.59</title></circle>
+                <line x1="639" y1="65.8" x2="644" y2="65.8" stroke-width="1" opacity="0.55" />
+                <text x="648" y="69.8" font-size="11.5" font-weight="600" fill="#9467bd" stroke="none">日经 225 +4.21%</text>
+              </g>
+              <g data-s="dxy" fill="none" stroke="#e377c2" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M 44.0,214.9 L 340.0,194.6 L 636.0,171.3" />
+                <circle cx="44" cy="214.9" r="3.5" fill="#e377c2" stroke-width="1.4" style="stroke:var(--card)"><title>美元指数 · 11 月 9 日 · 101.67</title></circle>
+                <circle cx="340" cy="194.6" r="3.5" fill="#e377c2" stroke-width="1.4" style="stroke:var(--card)"><title>美元指数 · 11 月 10 日 · 102.25</title></circle>
+                <circle cx="636" cy="171.3" r="3.5" fill="#e377c2" stroke-width="1.4" style="stroke:var(--card)"><title>美元指数 · 11 月 11 日 · 102.92</title></circle>
+                <line x1="639" y1="171.3" x2="644" y2="147.0" stroke-width="1" opacity="0.55" />
+                <text x="648" y="151" font-size="11.5" font-weight="600" fill="#e377c2" stroke="none">美元指数 +1.23%</text>
+              </g>
+              <g data-s="ust" fill="none" stroke="#17a2b8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M 44.0,214.9 L 340.0,175.9 L 636.0,177.7" />
+                <circle cx="44" cy="214.9" r="3.5" fill="#17a2b8" stroke-width="1.4" style="stroke:var(--card)"><title>美债 10 年期 · 11 月 9 日 · 4.875%</title></circle>
+                <circle cx="340" cy="175.9" r="3.5" fill="#17a2b8" stroke-width="1.4" style="stroke:var(--card)"><title>美债 10 年期 · 11 月 10 日 · 4.985%</title></circle>
+                <circle cx="636" cy="177.7" r="4.2" stroke="#17a2b8" stroke-width="2" style="fill:var(--card)"><title>美债 10 年期 · 11 月 11 日 · 约 4.98%（债市休市，沿用周二水平）</title></circle>
+                <line x1="639" y1="177.7" x2="644" y2="161.5" stroke-width="1" opacity="0.55" />
+                <text x="648" y="165.5" font-size="11.5" font-weight="600" fill="#17a2b8" stroke="none">美债 10Y +10.5bp</text>
+              </g>
+              <g data-s="spx" fill="none" stroke="#f28e2b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M 44.0,214.9 L 340.0,228.5 L 636.0,182.3" />
+                <circle cx="44" cy="214.9" r="3.5" fill="#f28e2b" stroke-width="1.4" style="stroke:var(--card)"><title>标普 500 · 11 月 9 日 · 7,549.94</title></circle>
+                <circle cx="340" cy="228.5" r="3.5" fill="#f28e2b" stroke-width="1.4" style="stroke:var(--card)"><title>标普 500 · 11 月 10 日 · 7,520.93</title></circle>
+                <circle cx="636" cy="182.3" r="3.5" fill="#f28e2b" stroke-width="1.4" style="stroke:var(--card)"><title>标普 500 · 11 月 11 日 · 7,619.38</title></circle>
+                <line x1="639" y1="182.3" x2="644" y2="176.0" stroke-width="1" opacity="0.55" />
+                <text x="648" y="180" font-size="11.5" font-weight="600" fill="#f28e2b" stroke="none">标普 500 +0.92%</text>
+              </g>
+              <g data-s="ndx" fill="none" stroke="#59a14f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M 44.0,214.9 L 340.0,241.1 L 636.0,185.0" />
+                <circle cx="44" cy="214.9" r="3.5" fill="#59a14f" stroke-width="1.4" style="stroke:var(--card)"><title>纳斯达克 · 11 月 9 日 · 25,253.13</title></circle>
+                <circle cx="340" cy="241.1" r="3.5" fill="#59a14f" stroke-width="1.4" style="stroke:var(--card)"><title>纳斯达克 · 11 月 10 日 · 25,065.87</title></circle>
+                <circle cx="636" cy="185.0" r="3.5" fill="#59a14f" stroke-width="1.4" style="stroke:var(--card)"><title>纳斯达克 · 11 月 11 日 · 25,466.19</title></circle>
+                <line x1="639" y1="185.0" x2="644" y2="190.5" stroke-width="1" opacity="0.55" />
+                <text x="648" y="194.5" font-size="11.5" font-weight="600" fill="#59a14f" stroke="none">纳斯达克 +0.84%</text>
+              </g>
+              <g data-s="sse" fill="none" stroke="#e15759" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M 44.0,214.9 L 340.0,212.0 L 636.0,195.6" />
+                <circle cx="44" cy="214.9" r="3.5" fill="#e15759" stroke-width="1.4" style="stroke:var(--card)"><title>上证指数 · 11 月 9 日 · 3,660.79</title></circle>
+                <circle cx="340" cy="212.0" r="3.5" fill="#e15759" stroke-width="1.4" style="stroke:var(--card)"><title>上证指数 · 11 月 10 日 · 3,663.72</title></circle>
+                <circle cx="636" cy="195.6" r="3.5" fill="#e15759" stroke-width="1.4" style="stroke:var(--card)"><title>上证指数 · 11 月 11 日 · 3,680.64</title></circle>
+                <line x1="639" y1="195.6" x2="644" y2="205.0" stroke-width="1" opacity="0.55" />
+                <text x="648" y="209" font-size="11.5" font-weight="600" fill="#e15759" stroke="none">上证指数 +0.54%</text>
+              </g>
+              <g data-s="dji" fill="none" stroke="#76b7b2" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M 44.0,214.9 L 340.0,225.5 L 636.0,208.3" />
+                <circle cx="44" cy="214.9" r="3.5" fill="#76b7b2" stroke-width="1.4" style="stroke:var(--card)"><title>道琼斯 · 11 月 9 日 · 52,389.74</title></circle>
+                <circle cx="340" cy="225.5" r="3.5" fill="#76b7b2" stroke-width="1.4" style="stroke:var(--card)"><title>道琼斯 · 11 月 10 日 · 52,231.89</title></circle>
+                <circle cx="636" cy="208.3" r="3.5" fill="#76b7b2" stroke-width="1.4" style="stroke:var(--card)"><title>道琼斯 · 11 月 11 日 · 52,486.49</title></circle>
+                <line x1="639" y1="208.3" x2="644" y2="219.5" stroke-width="1" opacity="0.55" />
+                <text x="648" y="223.5" font-size="11.5" font-weight="600" fill="#76b7b2" stroke="none">道琼斯 +0.18%</text>
+              </g>
+              <g data-s="wti" fill="none" stroke="#9c755f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M 44.0,214.9 L 340.0,247.9 L 636.0,227.9" />
+                <circle cx="44" cy="214.9" r="3.5" fill="#9c755f" stroke-width="1.4" style="stroke:var(--card)"><title>WTI 原油 · 11 月 9 日 · 86.85 美元</title></circle>
+                <circle cx="340" cy="247.9" r="3.5" fill="#9c755f" stroke-width="1.4" style="stroke:var(--card)"><title>WTI 原油 · 11 月 10 日 · 86.04 美元</title></circle>
+                <circle cx="636" cy="227.9" r="3.5" fill="#9c755f" stroke-width="1.4" style="stroke:var(--card)"><title>WTI 原油 · 11 月 11 日 · 86.53 美元</title></circle>
+                <line x1="639" y1="227.9" x2="644" y2="234.0" stroke-width="1" opacity="0.55" />
+                <text x="648" y="238" font-size="11.5" font-weight="600" fill="#9c755f" stroke="none">WTI 原油 −0.37%</text>
+              </g>
+              <g data-s="hsi" fill="none" stroke="#4e79a7" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M 44.0,214.9 L 340.0,199.2 L 636.0,234.1" />
+                <circle cx="44" cy="214.9" r="3.5" fill="#4e79a7" stroke-width="1.4" style="stroke:var(--card)"><title>恒生指数 · 11 月 9 日 · 24,448.95</title></circle>
+                <circle cx="340" cy="199.2" r="3.5" fill="#4e79a7" stroke-width="1.4" style="stroke:var(--card)"><title>恒生指数 · 11 月 10 日 · 24,557.04</title></circle>
+                <circle cx="636" cy="234.1" r="3.5" fill="#4e79a7" stroke-width="1.4" style="stroke:var(--card)"><title>恒生指数 · 11 月 11 日 · 24,315.92</title></circle>
+                <line x1="639" y1="234.1" x2="644" y2="248.5" stroke-width="1" opacity="0.55" />
+                <text x="648" y="252.5" font-size="11.5" font-weight="600" fill="#4e79a7" stroke="none">恒生指数 −0.54%</text>
+              </g>
+              <g data-s="gold" fill="none" stroke="#b8860b" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M 44.0,214.9 L 340.0,308.2 L 636.0,349.9" />
+                <circle cx="44" cy="214.9" r="3.5" fill="#b8860b" stroke-width="1.4" style="stroke:var(--card)"><title>现货黄金 · 11 月 9 日 · 4,141.00 美元/盎司</title></circle>
+                <circle cx="340" cy="308.2" r="3.5" fill="#b8860b" stroke-width="1.4" style="stroke:var(--card)"><title>现货黄金 · 11 月 10 日 · 4,031.84 美元/盎司</title></circle>
+                <circle cx="636" cy="349.9" r="3.5" fill="#b8860b" stroke-width="1.4" style="stroke:var(--card)"><title>现货黄金 · 11 月 11 日 · 3,983.20 美元/盎司</title></circle>
+                <line x1="639" y1="349.9" x2="644" y2="349.9" stroke-width="1" opacity="0.55" />
+                <text x="648" y="353.9" font-size="11.5" font-weight="600" fill="#b8860b" stroke="none">现货黄金 −3.81%</text>
+              </g>
+            </svg>
+          </div>
+          <div class="legend" aria-label="图例（点按可显示或隐藏对应曲线）">
+            <button type="button" class="chip" data-t="nky"><span class="dot" style="background:#9467bd"></span>日经 225 <span class="num up">+4.21%</span></button>
+            <button type="button" class="chip" data-t="dxy"><span class="dot" style="background:#e377c2"></span>美元指数 <span class="num up">+1.23%</span></button>
+            <button type="button" class="chip" data-t="ust"><span class="dot" style="background:#17a2b8"></span>美债 10Y <span class="num up">+10.5bp</span></button>
+            <button type="button" class="chip" data-t="spx"><span class="dot" style="background:#f28e2b"></span>标普 500 <span class="num up">+0.92%</span></button>
+            <button type="button" class="chip" data-t="ndx"><span class="dot" style="background:#59a14f"></span>纳斯达克 <span class="num up">+0.84%</span></button>
+            <button type="button" class="chip" data-t="sse"><span class="dot" style="background:#e15759"></span>上证指数 <span class="num up">+0.54%</span></button>
+            <button type="button" class="chip" data-t="dji"><span class="dot" style="background:#76b7b2"></span>道琼斯 <span class="num up">+0.18%</span></button>
+            <button type="button" class="chip" data-t="wti"><span class="dot" style="background:#9c755f"></span>WTI 原油 <span class="num down">−0.37%</span></button>
+            <button type="button" class="chip" data-t="hsi"><span class="dot" style="background:#4e79a7"></span>恒生指数 <span class="num down">−0.54%</span></button>
+            <button type="button" class="chip" data-t="gold"><span class="dot" style="background:#b8860b"></span>现货黄金 <span class="num down">−3.81%</span></button>
+          </div>
+          <p class="chart-note">读法：以 11 月 9 日收盘为基准 100，线上行/下行即涨跌、斜率对应幅度；美债 10 年期按基点口径示意（每 10bp 约合 1 个指数点，三日 +10.5bp）。11 月 11 日美国债市因退伍军人节休市，美债一格沿用周二水平（约 4.98%），图中以空心点标注，为休市而非真实波动。点按图例可显示 / 隐藏对应曲线。</p>
+
+          <table style="margin-top:14px">
+            <thead>
+              <tr><th>指标</th><th class="r">11 月 11 日</th><th class="r">较 11/10</th><th class="r">三日累计</th><th>三日方向</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="name">上证指数</td><td class="close num">3,680.64</td><td class="chg num up">+0.46%</td><td class="chg num up">+0.54%</td><td>涨 → 涨</td></tr>
+              <tr><td class="name">恒生指数</td><td class="close num">24,315.92</td><td class="chg num down">−0.98%</td><td class="chg num down">−0.54%</td><td>涨 → 跌</td></tr>
+              <tr><td class="name">标普 500</td><td class="close num">7,619.38</td><td class="chg num up">+1.31%</td><td class="chg num up">+0.92%</td><td>跌 → 涨</td></tr>
+              <tr><td class="name">纳斯达克</td><td class="close num">25,466.19</td><td class="chg num up">+1.60%</td><td class="chg num up">+0.84%</td><td>跌 → 涨</td></tr>
+              <tr><td class="name">道琼斯</td><td class="close num">52,486.49</td><td class="chg num up">+0.49%</td><td class="chg num up">+0.18%</td><td>跌 → 涨</td></tr>
+              <tr><td class="name">日经 225</td><td class="close num">61,248.59</td><td class="chg num up">+1.31%</td><td class="chg num up">+4.21%</td><td>涨 → 涨</td></tr>
+              <tr><td class="name">现货黄金</td><td class="close num">3,983.20 美元/盎司</td><td class="chg num down">−1.21%</td><td class="chg num down">−3.81%</td><td>跌 → 跌</td></tr>
+              <tr><td class="name">WTI 原油</td><td class="close num">86.53 美元</td><td class="chg num up">+0.57%</td><td class="chg num down">−0.37%</td><td>跌 → 涨</td></tr>
+              <tr><td class="name">美债 10 年期</td><td class="close num">约 4.98%</td><td class="chg num">持平（休市）</td><td class="chg num up">+10.5bp</td><td>涨 → 平</td></tr>
+              <tr><td class="name">美元指数</td><td class="close num">102.92</td><td class="chg num up">+0.67%</td><td class="chg num up">+1.23%</td><td>涨 → 涨</td></tr>
+            </tbody>
+          </table>
+
+          <p class="summary">三日累计涨幅居首是日经（约 +4.2%），跌幅最深是黄金（约 −3.8%）；美股 11 月 10 日受 CPI 冲击集体回吐，11 月 11 日在 AI 交易带动下收复并创三日新高；美元指数三连涨、美债收益率站上 4.98%，加息交易是贯穿三日的主线。</p>
+
+          <div class="trend-track">
+            <span>已积累 3 / 30 个记录日</span>
+            <span class="bar"><span class="fill" style="display:block;width:10%"></span></span>
+          </div>
+          <p class="tbl-note">趋势数据逐日积累，最多保留最近 30 个记录日。</p>
+          <p class="src-note">数据来源：11 月 9 日 A 股 / 港股收盘引自香港新闻网每日金融数据；11 月 10 日 A 股收盘引自东方财富 / 同花顺复盘；美股 11 月 9 日收盘由 11 月 10 日收盘与当日涨跌点数反推（Zacks / Sina Finance）；日经等 11 月 9 日值由 11 月 10 日收盘与当日涨跌点数反推（fxteam 日度历史、Qatar Tribune）；黄金、原油、美元指数、美债收益率引自 Kitco、Eurasia Business News 及晨间市场简报。</p>
+        </div>
+      </section>
+
+      <section id="events">
+        <h2 class="sec">重要事件详情</h2>
+        <p class="sec-note">每条事件顶部为关键数据速览</p>
+
+        <article class="event">
+          <span class="tag">宏观</span>
+          <h3>美国通胀与加息博弈</h3>
+          <div class="pills">
+            <span class="pill">CPI 环比 <span class="num">+0.4%</span>（预期 +0.3%）</span>
+            <span class="pill">核心环比 <span class="num">+0.3%</span>（预期 +0.2%）</span>
+            <span class="pill">12 月加息 25bp 概率约 88–90%</span>
+            <span class="pill">50bp 约 11–15%</span>
+          </div>
+          <p>10 月 CPI 超预期后，加息预期持续发酵。美联储理事沃勒此前称，若核心 CPI 达 0.3% 或更高，12 月应考虑加息 50bp；达拉斯联储主席洛根称至少还需两次 25bp 加息。利率期货市场目前计入 12 月会议约 29bp 的紧缩幅度，即超过一次 25bp 加息。美联储 10 月 28 日维持利率在 3.75%–4.00%，下次会议 12 月 8–9 日；会前公布的 10 月 PCE 与 11 月非农将是决定加息幅度的关键。欧洲央行 12 月加息概率约 92%，日本央行约 84%，全球主要央行同步偏鹰。</p>
+        </article>
+
+        <article class="event">
+          <span class="tag">市场</span>
+          <h3>AI 交易强势回归</h3>
+          <div class="pills">
+            <span class="pill">CoreWeave <span class="num up">+24.71%</span></span>
+            <span class="pill">美光 <span class="num up">+11.89%</span></span>
+            <span class="pill">纳指 100 <span class="num up">+2.28%</span></span>
+            <span class="pill">VIX <span class="num">17.49</span>（<span class="num down">−10.13%</span>）</span>
+          </div>
+          <p>CoreWeave 三季报后上调 2026 年营收指引至 130–133 亿美元，股价单日暴涨近 25%，点燃芯片与云基建行情：纳指 100 涨 2.28% 为主要股指最佳，费城半导体概念普涨，美光涨近 12%。标普 500 收复上周 AI 抛售的大半失地，距历史高点仅约 2.6%。VIX 跌超 10% 至 17.49，四连降至一周低点，显示避险需求快速消退。需留意：CoreWeave 债务与租赁负债规模仍大，AI 基建的融资可持续性仍是市场关注点。</p>
+        </article>
+
+        <article class="event">
+          <span class="tag">市场</span>
+          <h3>黄金跌破 4000 美元</h3>
+          <div class="pills">
+            <span class="pill">现货金约 3,983 美元（<span class="num down">−1.21%</span>）</span>
+            <span class="pill">美元指数 <span class="num">102.92</span>（<span class="num up">+0.67%</span>）</span>
+            <span class="pill">白银约 51.56 美元（<span class="num up">+0.29%</span>）</span>
+          </div>
+          <p>美元走强与加息预期双重压制下，现货黄金周三盘中一度反弹，但尾盘回落并跌破 4000 美元关口，收于约 3,983 美元。这是继周二 CPI 公布后约 2.6% 大跌的延续。美元指数升至 102.92，逼近 2025 年 4 月以来最高水平。白银相对坚挺，小幅上涨。国内金价今早报 857.67 元/克。10 年期美债收益率在 5% 附近，持有无息黄金的机会成本高企，仍是金价的主要压制因素。</p>
+        </article>
+
+        <article class="event">
+          <span class="tag">地缘</span>
+          <h3>油价反弹，库存与航运风险拉锯</h3>
+          <div class="pills">
+            <span class="pill">WTI <span class="num">86.53</span> 美元（<span class="num up">+0.57%</span>）</span>
+            <span class="pill">布伦特 <span class="num">92.76</span> 美元（<span class="num up">+1.39%</span>）</span>
+            <span class="pill">API 库存 +900 万桶</span>
+            <span class="pill">EIA 预计布伦特年内近 100 美元</span>
+          </div>
+          <p>油价周三反弹，结束此前连跌。霍尔木兹海峡附近油轮遇袭事件抵消了伊朗局势缓和的预期——10 月海湾地区共发生 37 起针对船只的袭击，为冲突爆发以来单月最高。API 数据显示上周美国原油库存增加 900 万桶，为三个月来最大增幅；EIA 官方数据因退伍军人节推迟至周五凌晨 01:00 公布。EIA 11 月短期展望预计布伦特年内维持近 100 美元，2027 年四季度均值回落至 77 美元；美国商业原油库存 10 月底降至 4.10 亿桶，为 2014 年以来同期最低；美国原油产量预计 2027 年创纪录达 1,430 万桶/日。</p>
+        </article>
+
+        <article class="event">
+          <span class="tag">中国</span>
+          <h3>央行表态与 A 股三连涨</h3>
+          <div class="pills">
+            <span class="pill">沪指 <span class="num up">+0.46%</span> 三连涨</span>
+            <span class="pill">创业板 <span class="num up">+3.11%</span></span>
+            <span class="pill">新能源车 10 月占比 64.3%</span>
+          </div>
+          <p>中国人民银行表示，用好债市非银大额赎回互换便利，维护股票、债券、外汇等金融市场平稳运行。A 股三大指数周三全线上涨，沪指三连涨，创业板大涨 3.11%，科创 50 涨 2.80%；光通信、PCB 板块领涨。产业方面，中汽协数据显示 10 月新能源汽车月度新车销量占比达 64.3%，汽车出口连续五个月超百万辆。港股则逆势下跌，恒指跌 0.98%，恒生科技跌 1.41%，腾讯、美团等权重股领跌。</p>
+        </article>
+
+        <article class="event">
+          <span class="tag">欧洲</span>
+          <h3>DAX 与 STOXX 600 双创收盘新高</h3>
+          <div class="pills">
+            <span class="pill">DAX <span class="num">26,662.77</span>（<span class="num up">+1.20%</span>）</span>
+            <span class="pill">STOXX 600 <span class="num">663.05</span>（<span class="num up">+0.72%</span>）</span>
+            <span class="pill">西门子能源 <span class="num up">+10.78%</span></span>
+            <span class="pill">德国 CPI 2.8%</span>
+          </div>
+          <p>欧洲股市周三全线上涨，九大指数悉数收高。DAX 大涨 1.20%，超越 8 月 28 日的前纪录，创收盘新高；STOXX 600 同样创收盘新高，油气板块结束八连跌。西门子能源上调 2027 年利润率目标，股价大涨 10.78%，领涨 DAX。德国 10 月 CPI 放缓至 2.8%，为欧洲央行政策路径提供一定缓和空间，但官员表态仍偏鹰。</p>
+        </article>
+
+        <article class="event">
+          <span class="tag">公司</span>
+          <h3>今晚看思科与应用材料</h3>
+          <div class="pills">
+            <span class="pill">思科、应用材料盘后财报</span>
+            <span class="pill">30 年期美债拍卖 250 亿美元</span>
+          </div>
+          <p>今晚美股盘后，思科与应用材料将公布财报，是检验 AI 基建需求成色的下一站——此前 CoreWeave 的强劲指引已点燃板块行情，市场关注 AI 资本开支是否继续向网络与半导体设备传导。此外，美国财政部今晚将拍卖 250 亿美元 30 年期国债，为退伍军人节假期后首场长债拍卖，10 年期收益率逼近 5% 之际，拍卖需求是债市情绪的重要风向标。</p>
+        </article>
+      </section>
+
+      <section id="outlook">
+        <h2 class="sec">今日前瞻</h2>
+        <p class="sec-note">11 月 12 日（星期四）· 时间为北京时间</p>
+        <div class="outlook">
+          <div class="oi">
+            <span class="time num">21:30</span>
+            <div class="body"><b>美国上周初请失业金人数</b>（截至 11 月 7 日当周）<span>——上周非农大超预期后，劳动力市场的又一检验</span></div>
+          </div>
+          <div class="oi">
+            <span class="time">今日</span>
+            <div class="body"><b>英国三季度 GDP</b></div>
+          </div>
+          <div class="oi">
+            <span class="time">今晚</span>
+            <div class="body"><b>250 亿美元 30 年期美债拍卖</b><span>（债市恢复交易后首场长债拍卖）</span></div>
+          </div>
+          <div class="oi">
+            <span class="time">美股盘后</span>
+            <div class="body"><b>思科、应用材料财报</b></div>
+          </div>
+          <div class="oi">
+            <span class="time">周五 01:00</span>
+            <div class="body"><b>美国 EIA 上周原油库存报告</b><span>（因退伍军人节推迟）</span></div>
+          </div>
+          <div class="oi">
+            <span class="time">周五 21:30</span>
+            <div class="body"><b>美国 10 月 PPI</b><span>——CPI 之后的第二道通胀检验</span></div>
+          </div>
+          <div class="oi">
+            <span class="time">提示</span>
+            <div class="body">A 股、港股正常交易，关注隔夜美股反弹与美债收益率对亚太的传导。</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="archive">
+        <h2 class="sec">往期回看</h2>
+        <p class="sec-note">最近 7 期全文保留、倒序排列 · 超过 7 天的期次折叠为摘要卡，点开可展开全文 · 按月分组，往月默认收起</p>
+
+        <details class="month-group" open>
+          <summary>2026 年 11 月<span class="m-count">本月 · 1 期</span></summary>
+          <div class="month-body">
+            <p class="month-empty">本月首期为创刊期（2026 年 11 月 12 日），即本页上方全文。明日新一期发布后，本期将以全文收纳于此。</p>
+          </div>
+        </details>
+      </section>
+
+      <section id="sources">
+        <h2 class="sec">来源</h2>
+        <div class="card">
+          <ul class="sources">
+            <li><span class="src">The Company Chronicle</span> — <a href="https://thecompanychronicle.com/story/stocks-close-nasdaq-100-up-2-3-percent-coreweave-24-micron-12-dow-255-points-november-11-2026" target="_blank" rel="noopener">Stocks close higher: S&amp;P 500 +1.3%, Nasdaq +1.6% as CoreWeave revives the AI trade, Micron +12%</a></li>
+            <li><span class="src">Cappnotes</span> — <a href="https://cappnotes.substack.com/p/closing-look-wednesday-november-11" target="_blank" rel="noopener">Closing Look, Wednesday, November 11, 2026</a></li>
+            <li><span class="src">21财经</span> — <a href="https://www.21jingji.com/article/20261111/herald/559b3659c6775e9a7f17e7825f859522.html" target="_blank" rel="noopener">港股收盘：恒生科技指数跌超1% 光通信股逆势大涨</a></li>
+            <li><span class="src">The Edge</span> — <a href="https://edgeconsultancykw.com/asia-market-wrap-11-november-2026/" target="_blank" rel="noopener">Asia Market Wrap 11 November: Taiex Climbs 3.62% as Hang Seng Falls 0.98%</a></li>
+            <li><span class="src">BigGo Finance</span> — <a href="https://finance.biggo.com/news/574bb271-e32d-4b92-b62d-3b5a63bb45a9" target="_blank" rel="noopener">AI Trade Revives as Stoxx Europe 600 Closes at Record High; German Stocks Jump 1.2% to New Peak</a></li>
+            <li><span class="src">The Edge</span> — <a href="https://edgeconsultancykw.com/europe-market-wrap-11-november-2026/" target="_blank" rel="noopener">Europe Market Wrap 11 November: DAX Leads Gains as Oil and Gas Ends an Eight-Day Slide</a></li>
+            <li><span class="src">Kitco</span> — <a href="https://www.kitco.com/news/article/2026-11-11/gold-falls-below-4000-dollar-surges-fed-hike-bets-rise-kitco-pm-report" target="_blank" rel="noopener">Gold falls below $4,000 as dollar surges, Fed hike bets rise</a></li>
+            <li><span class="src">Kitco</span> — <a href="https://www.kitco.com/news/article/2026-11-11/gold-silver-rebound-after-cpi-driven-selloff-hormuz-tensions-lift-crude-oil" target="_blank" rel="noopener">Gold, silver rebound after CPI-driven selloff, Hormuz tensions lift crude oil</a></li>
+            <li><span class="src">Nexo</span> — <a href="https://nexo.com/blog/markets-today-november-11" target="_blank" rel="noopener">Markets Today, November 11, 2026</a></li>
+            <li><span class="src">ATFX</span> — <a href="https://www.atfxcapital.com/en/analysis/market-news/20261111-daily-market-highlight" target="_blank" rel="noopener">US CPI Surges, Fed Turns Hawkish</a></li>
+            <li><span class="src">IndexBox</span> — <a href="https://www.indexbox.io/blog/us-crude-inventories-post-sharp-build-as-spr-continues-to-drain/" target="_blank" rel="noopener">US Crude Inventories Post Sharp Build as SPR Continues to Drain</a></li>
+            <li><span class="src">CRWE World</span> — <a href="https://crweworld.com/article/news-provided-by-pr-newswire/3950920/eia-sees-brent-near-100-for-the-rest-of-the-year-as-crude-futures-ease-again" target="_blank" rel="noopener">EIA Sees Brent Near $100 for the Rest of the Year</a></li>
+            <li><span class="src">60s API</span> — <a href="https://60s.newhackerman.workers.dev" target="_blank" rel="noopener">汇率、金价数据</a></li>
+            <li><span class="src">INTELWIRE</span> — <a href="https://intelwire.uk/briefs/2026-11-08/" target="_blank" rel="noopener">US Market Week Ahead (Nov 8 ET)</a></li>
+            <li><span class="src">Daily Tech Briefing</span> — <a href="https://dtbrief.com/posts/2026-11-09-nvidia-board-probe-jensen-huang.html" target="_blank" rel="noopener">Nvidia's Board Probes Jensen Huang</a></li>
+            <li><span class="src">TopStockGuru</span> — <a href="https://topstockguru.substack.com/p/nvidia-has-a-jensen-problem" target="_blank" rel="noopener">Nvidia has a Jensen problem</a></li>
+            <li><span class="src">Raydn</span> — <a href="https://www.raydn.us/story/3888-bank-of-england-lifts-bank-rate-to-4-pct-and-sees-inflation-near-5-pct-by-mid" target="_blank" rel="noopener">Bank of England lifts Bank Rate to 4%</a></li>
+            <li><span class="src">香港新闻网</span> — <a href="https://www.hkcna.hk/hk/content/s6af28538e4b04d9df119d4fc.html" target="_blank" rel="noopener">每日金融數據（2026年11月10日）</a></li>
+            <li><span class="src">东方财富</span> — <a href="https://emwap.eastmoney.com/a/202611103927273312.html" target="_blank" rel="noopener">A股三大指数收涨 创业板指涨1.46%</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <footer>
+        <p>《每日全球金融报》为公开信息整理，不构成任何投资建议。个别数据在不同数据源间存在尾数差异，正文取用主流口径。</p>
+        <p>2026 年 11 月 12 日 · 创刊期 · 数据截止 09:30（北京时间）</p>
+      </footer>
+    </div>
+    <script>
+      (function () {
+        var chips = document.querySelectorAll('.chip[data-t]');
+        chips.forEach(function (chip) {
+          chip.addEventListener('click', function () {
+            var key = chip.getAttribute('data-t');
+            var g = document.querySelector('svg g[data-s="' + key + '"]');
+            var off = chip.classList.toggle('off');
+            if (g) g.style.opacity = off ? '0.07' : '';
+            chip.setAttribute('aria-pressed', off ? 'false' : 'true');
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
